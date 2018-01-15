@@ -7,6 +7,8 @@
 *.iml
 *.ipr
 *.iws
+gradlew
+gradlew.bat
 
 # Cache of project
 .gradletasknamecache
