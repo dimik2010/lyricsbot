@@ -1,16 +1,17 @@
 package edu.technopolis.advanced.bot.response;
 
 public class LyricsResponse extends Response {
-
+  private final String URL_PREV_MESSAGE = "ПРОДОЛЖАЙТЕ ЧТЕНИЕ НА: ";
   private String lyricsBody;
 
   private String lyricsLang;
-  private String lyricsCopyright;
 
-  public LyricsResponse(String lyricsBody, String lyricsLang, String lyricsCopyright) {
+  private String backlinkURL;
+
+  public LyricsResponse(String lyricsBody, String lyricsLang, String backlinkURL) {
     this.lyricsBody = lyricsBody;
     this.lyricsLang = lyricsLang;
-    this.lyricsCopyright = lyricsCopyright;
+    this.backlinkURL = backlinkURL;
   }
 
 
@@ -30,18 +31,11 @@ public class LyricsResponse extends Response {
     this.lyricsLang = lyricsLang;
   }
 
-  public String getLyricsCopyright() {
-    return lyricsCopyright;
-  }
 
-  public void setLyricsCopyright(String lyricsCopyright) {
-    this.lyricsCopyright = lyricsCopyright;
-  }
 
   @Override
   public String toString() {
-    return "Lyrics, language " + lyricsLang + ": " +
-            lyricsBody +
-            "\nCopyright: " + lyricsCopyright;
+    return "Lyrics, language " + lyricsLang + ": \n" +
+            lyricsBody + "\n" + URL_PREV_MESSAGE + backlinkURL;
   }
 }

@@ -1,0 +1,4 @@
+Application name	OK-bot
+API key	10f1ccc838469f7e45a23645d2ad8265
+Shared secret	5a0bba47fa7b33c423059c66a99418af
+Registered to	dimk2010

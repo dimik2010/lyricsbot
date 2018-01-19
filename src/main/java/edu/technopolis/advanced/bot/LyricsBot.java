@@ -32,6 +32,7 @@ public class LyricsBot {
             GetSubscriptionsResponse response = okClient.get(
                     new GetSubscriptionsRequest(props.getProperty("ok.api.endpoint.subscriptions")), GetSubscriptionsResponse.class);
             String botEndpoint = props.getProperty("bot.message.endpoint");
+//            unsubscribeAll(okClient, props, response);
             log.info("Checking that bot is subscribed to messages...");
             if (checkSubscribed(botEndpoint, response)) {
                 log.info("Subscription exists");
@@ -142,7 +143,7 @@ public class LyricsBot {
         private final String phrase;
         private final String sendEndpoint;
         private final String lyricsQueryTemplate;
-        private final String ERROR_MESSAGE = "Please enter song title in format Artist - Track title";
+        private final String ERROR_MESSAGE;
 
 
         MessageSender(ApiClient okClient, Properties props, LyricsApiClient lyricsClient) {
@@ -151,6 +152,7 @@ public class LyricsBot {
             this.sendEndpoint = props.getProperty("ok.api.endpoint.send");
             this.lyricsQueryTemplate = props.getProperty("lyrics.api.endpoint.song.template");
             this.lyricsClient = lyricsClient;
+            this.ERROR_MESSAGE = props.getProperty("bot.message.error_msg");
         }
 
         boolean send(MessageNotification notif) {
@@ -178,6 +180,7 @@ public class LyricsBot {
                 return false;
             }
         }
+
 
         private String getLyrics(MessageNotification notification) {
             String songName = notification.getMessage().getText();

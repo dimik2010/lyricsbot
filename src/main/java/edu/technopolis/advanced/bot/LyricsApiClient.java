@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import edu.technopolis.advanced.bot.request.Request;
 import edu.technopolis.advanced.bot.response.LyricsResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -28,7 +27,7 @@ public class LyricsApiClient extends ApiClient {
     return method(request);
   }
 
-  LyricsResponse method(HttpUriRequest method)throws IOException {
+  LyricsResponse method(HttpUriRequest method, String... fieldNames)throws IOException {
     try (CloseableHttpResponse response = client.execute(method)){
       StringBuilder sb = new StringBuilder();
       try (BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()))) {
@@ -38,10 +37,8 @@ public class LyricsApiClient extends ApiClient {
         }
       }
       ObjectNode content = MAPPER.readValue(sb.toString(), ObjectNode.class);
-      JsonNode[] responseFields = new JsonNode[3];
-      responseFields[0] = content.get("lyrics_body");
-      responseFields[1] = content.get("lyrics_language");
-      responseFields[2] = content.get("lyrics_copyright");
+      JsonNode[] responseFields = new JsonNode[fieldNames.length];
+      responseFields = (JsonNode[]) Arrays.stream(fieldNames).map(content::get).toArray();
       String[] responseStringArray = convertJsonNodeToString(responseFields);
       log.info("Read response {}", Arrays.toString(responseFields));
       return new LyricsResponse(responseStringArray[0], responseStringArray[1], responseStringArray[2]);
